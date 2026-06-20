@@ -5,8 +5,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const router = express.Router();
 
-router.get("/", (req, res) => {
+//this is for GET in Messenger's callback url challenge;
 
+router.get("/", (req, res) => {
   console.log(process.env.VERIFY_TOKEN);
 
   // Parse the query params
@@ -27,5 +28,13 @@ router.get("/", (req, res) => {
     }
   }
 });
+
+//send data (POST)
+router.post("/", (req, res) => {
+  let body = req.body;
+  console.log(req.body);
+  res.send('messenger')
+});
+
 
 export default router;
