@@ -1,5 +1,8 @@
 import axios from "axios";
 
+
+
+//for sending text in a specific PSID
 async function sendId(id,text) {
   await axios
     .post(

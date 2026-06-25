@@ -1,7 +1,6 @@
-const supabase = import ('./client')
+import supabase from './client.js';
 
-
-async function getConfig() {
+function getConfig() {
     const {data,error} = await supabase
         .from('config')
         .select('1')
