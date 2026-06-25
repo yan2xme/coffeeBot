@@ -29,12 +29,14 @@ router.get("/", (req, res) => {
   }
 });
 
-//send data (POST)
+// Create the endpoint for your webhook
 router.post("/", (req, res) => {
   let body = req.body;
-  console.log(req.body);
-  res.send('messenger')
-});
 
+  console.log(`\u{1F7EA} Received webhook:`);
+  console.dir(body, { depth: null });
+
+  res.status(200).send("fuck it! kinda works..")
+});
 
 export default router;

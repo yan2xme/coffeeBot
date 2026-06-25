@@ -12,4 +12,4 @@ async function getConfig() {
         return data
 }
 
-module.exports = { getConfig }
+export default { getConfig };
