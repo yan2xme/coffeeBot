@@ -34,7 +34,8 @@ router.post("/", (req, res) => {
   let body = req.body;
 
   console.log(`\u{1F7EA} Received webhook:`);
-  console.dir(body, { depth: null });
+  console.log("from PSID: "+body.entry[0].messaging[0].sender.id);
+  console.log("Message: "+body.entry[0].messaging[0].message.text);
 
   res.status(200).send("fuck it! kinda works..")
 });
