@@ -4,7 +4,7 @@ import webhook from './routes/webhook.js';
 import send from './bot/send.js'
 import orders from "./db/orders.js"
 import * as readline from 'node:readline/promises';
-
+import { getConfig } from './db/config.js';
 
 dotenv.config();
 
@@ -38,7 +38,6 @@ orders.saveOrder(52,'usr_69420','klent','matcha latte','oatside','sweet','wieman
 
 //listening the server at port 3000
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
-
 
 
 

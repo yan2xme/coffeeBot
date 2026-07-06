@@ -1,14 +1,18 @@
 import supabase from './client.js';
 
-function getConfig() {
-    const {data,error} = await supabase
+export async function getConfig(prompt) {
+    try {
+        const {data,error} = await supabase
         .from('config')
-        .select('1')
-        .eq('id', 1)
+        .select()
+        .limit(1)
         .single()
 
         if (error) throw error
-        return data
-}
 
-export default { getConfig };
+        return data
+        
+    } catch (error) {
+        console.log(error)
+    }
+} 

@@ -43,7 +43,7 @@ async function countTodayOrders() {
     .gte('created_at', dateNow);
 
     if (error) throw error;
-    return console.log(count); //return count
+    return count; //return count
 }
 
 
