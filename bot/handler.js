@@ -4,6 +4,11 @@ import { getConfig } from "../db/config.js";
 import { countTodayOrders } from "../db/orders.js";
 import { saveOrder } from "../db/orders.js";
 import { sendId } from "./send.js"; // or whatever you named it
+import { sweetSend } from "./send.js"; // or whatever you named it
+import { flavorsSend } from "./send.js"; // or whatever you named it
+import { milkSend } from "./send.js"; // or whatever you named it
+import { areaSend } from "./send.js"; // or whatever you named it
+
 
 const sessions = {};
 
@@ -39,6 +44,7 @@ export async function handleMessage(senderId, text) {
       sessions[senderId] = session;
 
       sendId(senderId, "What would you like to drink?");
+      flavorsSend(senderId);
       // 1. save `text` as session.data.name
       // 2. advance session.state to ASK_DRINK
       // 3. sessions[senderId] = session  ← don't forget to save it back
@@ -52,7 +58,7 @@ export async function handleMessage(senderId, text) {
       session.state = STATES.ASK_MILK;
       sessions[senderId] = session;
 
-      sendId(senderId, "What milk would you like me to use?");
+      milkSend(senderId, "What milk would you like me to use?");
       // same pattern as before
       break;
     }
@@ -63,7 +69,7 @@ export async function handleMessage(senderId, text) {
       session.state = STATES.ASK_SWEET;
       sessions[senderId] = session;
 
-      sendId(senderId, "How sweet would you like it to be?");
+      sweetSend(senderId, "How sweet would you like it to be?");
       // same pattern as before
       break;
     }
@@ -74,7 +80,8 @@ export async function handleMessage(senderId, text) {
       session.state = STATES.ASK_BUILD;
       sessions[senderId] = session;
 
-      sendId(senderId, "Which building are you located?");
+      areaSend(senderId, "Which building are you located?");
+
       // same pattern as before
       break;
     }
@@ -84,7 +91,7 @@ export async function handleMessage(senderId, text) {
 
       session.state = STATES.DONE;
       sessions[senderId] = session;
-      sendId(senderId, "is it done?");
+      sendId(senderId, `Are your order details correct?\n\nName: ${session.data.name}\nDrink: ${session.data.drink}\nMilk: ${session.data.milk}\nSweet: ${session.data.sweet}\nBuilding: ${session.data.building}`);
       // same pattern as before
       break;
     }

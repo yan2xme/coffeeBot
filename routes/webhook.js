@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import {handleMessage} from '../bot/handler.js';
+import { handleMessage } from "../bot/handler.js";
 
 const router = express.Router();
 
@@ -29,21 +29,36 @@ router.get("/", (req, res) => {
 });
 
 // Create the endpoint for your webhook
+
 router.post("/", (req, res) => {
   let body = req.body;
 
-  console.log(`\u{1F7EA} Received webhook:`);
-  console.log("from PSID: "+body.entry[0].messaging[0].sender.id);
-  console.log("Message: "+body.entry[0].messaging[0].message.text);
+  let messaging_events = body.entry[0].messaging;
 
-  const senderId = body.entry[0].messaging[0].sender.id;
-  const text = body.entry[0].messaging[0].message.text;
+  for (let i = 0; i < messaging_events.length; i++) {
+    let event = req.body.entry[0].messaging[i];
+    let senderId = event.sender.id;
 
-  handleMessage(senderId,text);
+    if (event.message && event.message.text) {
+      let text = event.message.text;
 
-  res.status(200).send("fuck it! kinda works..")
+      console.log(`\n\u{1F7EA} Received webhook:`);
+      console.log("from PSID: " + senderId);
+      console.log("Message: " + text);
+      handleMessage(senderId, text);
+      continue;
+    }
 
+    if (event.postback) {
+      let postback = event.postback.payload;
+      console.log(`\n\u{1F7EA} Received postback:`);
+      console.log("Message: " + postback);
+      handleMessage(senderId, postback);
+      continue;
+    }
+  }
 
+  res.status(200).send("fuck it! kinda works..");
 });
 
 export default router;
