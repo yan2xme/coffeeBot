@@ -1,8 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import {handleMessage} from '../bot/handler.js';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
 const router = express.Router();
 
 //this is for GET in Messenger's callback url challenge;
@@ -37,7 +36,14 @@ router.post("/", (req, res) => {
   console.log("from PSID: "+body.entry[0].messaging[0].sender.id);
   console.log("Message: "+body.entry[0].messaging[0].message.text);
 
+  const senderId = body.entry[0].messaging[0].sender.id;
+  const text = body.entry[0].messaging[0].message.text;
+
+  handleMessage(senderId,text);
+
   res.status(200).send("fuck it! kinda works..")
+
+
 });
 
 export default router;

@@ -1,9 +1,7 @@
 import axios from "axios";
 
-
-
 //for sending text in a specific PSID
-async function sendId(id,text) {
+export async function sendId(id,text) {
   await axios
     .post(
       "https://graph.facebook.com/v25.0/me/messages?access_token=" +
@@ -22,5 +20,3 @@ async function sendId(id,text) {
       console.log("Request completed");
     });
 }
-
-export default { sendId };

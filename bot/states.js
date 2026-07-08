@@ -1,4 +1,4 @@
-export const states = {
+export const STATES = {
     IDLE : 'idle',
     ASK_NAME : 'ask_name',
     ASK_DRINK : 'ask_drink',
@@ -8,4 +8,4 @@ export const states = {
     DONE : 'done'
 }
 
-export default { states }
+export default { STATES }
