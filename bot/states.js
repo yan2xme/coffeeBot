@@ -1,4 +1,5 @@
 export const STATES = {
+    START : 'start',
     IDLE : 'idle',
     ASK_NAME : 'ask_name',
     ASK_DRINK : 'ask_drink',

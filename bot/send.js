@@ -58,6 +58,39 @@ export async function sweetSend(id, texts) {
     });
 }
 
+export async function selectionSend(id, texts) {
+  await axios
+    .post(
+      "https://graph.facebook.com/v25.0/me/messages?access_token=" +
+        process.env.PAGE_ACCESS_TOKEN,
+      {
+        recipient: { id: id },
+        message: {
+          text: texts,
+          quick_replies: [
+            {
+              content_type: "text",
+              title: "Start Order",
+              payload: "Start Order",
+            },
+            {
+              content_type: "text",
+              title: "Check Order",
+              payload: "Check Order",
+            }
+          ],
+        },
+      },
+    )
+    .catch((error) => {
+      console.log(JSON.stringify(error.response.data));
+    })
+    .finally(() => {
+      console.log("Request completed");
+    });
+}
+
+
 export async function confirmSend(id, texts) {
   await axios
     .post(

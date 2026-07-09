@@ -9,25 +9,59 @@ import { flavorsSend } from "./send.js"; // or whatever you named it
 import { milkSend } from "./send.js"; // or whatever you named it
 import { areaSend } from "./send.js"; // or whatever you named it
 import { confirmSend } from "./send.js"; // or whatever you named it
+import { selectionSend } from "./send.js"; // or whatever you named it
 
 const sessions = {};
 
 export async function handleMessage(senderId, text) {
-  const session = sessions[senderId] ?? { state: STATES.IDLE, data: {} };
+  const session = sessions[senderId] ?? { state: STATES.START, data: {} };
 
   switch (session.state) {
+    case STATES.START:
+      session.data.start = text;
+
+      session.state = STATES.IDLE;
+      sessions[senderId] = session;
+
+      selectionSend(
+        senderId,
+        "Welcome to env.coffee!!\n\nWhat would you like to do here?",
+      );
+      break;
+
     case STATES.IDLE: {
-      var result = await getConfig();
+      session.data.start = text;
 
-      var todayOrders = await countTodayOrders();
+      const selection = ["Start Order", "Check Order"];
 
-      if (!result.accepting_orders || todayOrders >= result.daily_limit) {
-        sendId(senderId, result.cutoff_message);
+      if (session.data.start == "Start Order") {
+        var result = await getConfig();
+
+        var todayOrders = await countTodayOrders();
+
+        if (!result.accepting_orders || todayOrders >= result.daily_limit) {
+          sendId(senderId, result.cutoff_message);
+          return;
+        } else {
+          session.state = STATES.ASK_NAME;
+          sessions[senderId] = session;
+          sendId(senderId, "What's your name?");
+        }
+      } else if (session.data.start == "Check Order") {
+        session.state = STATES.IDLE;
+        sessions[senderId] = session;
+        sendId(senderId, "Just checking lang, now exiting to Start");
+        selectionSend(
+          senderId,
+          "Welcome to env.coffee!!\n\nWhat would you like to do here?",
+        );
         return;
       } else {
-        session.state = STATES.ASK_NAME;
-        sessions[senderId] = session;
-        sendId(senderId, "What's your name?");
+        sendId(senderId, "Wrong input, try again");
+        selectionSend(
+          senderId,
+          "Welcome to env.coffee!!\n\nWhat would you like to do here?",
+        );
       }
       break;
       // 1. call getConfig()
@@ -74,8 +108,8 @@ export async function handleMessage(senderId, text) {
 
     case STATES.ASK_MILK: {
       session.data.milk = text;
-    
-      const milks = ["Oatside", "Cow Milk"]
+
+      const milks = ["Oatside", "Cow Milk"];
 
       if (milks.includes(session.data.milk)) {
         session.state = STATES.ASK_SWEET;
@@ -91,7 +125,7 @@ export async function handleMessage(senderId, text) {
 
     case STATES.ASK_SWEET: {
       session.data.sweet = text;
-      const sweet = ["0%", "50%","100%"];
+      const sweet = ["0%", "50%", "100%"];
 
       if (sweet.includes(session.data.sweet)) {
         session.state = STATES.ASK_BUILD;
@@ -108,12 +142,8 @@ export async function handleMessage(senderId, text) {
     case STATES.ASK_BUILD: {
       session.data.building = text;
 
-      const build = ["Wiemann Building",
-        "Bapa Benny",
-        "Arrupe Hall"];
-      if (
-        build.includes(session.data.building)
-      ) {
+      const build = ["Wiemann Building", "Bapa Benny", "Arrupe Hall"];
+      if (build.includes(session.data.building)) {
         session.state = STATES.DONE;
         sessions[senderId] = session;
         confirmSend(
@@ -145,12 +175,20 @@ export async function handleMessage(senderId, text) {
         );
 
         sendId(senderId, "Order placed, thank you for ordering.");
-        session.state = STATES.IDLE;
+        session.state = STATES.START;
         sessions[senderId] = session;
+        selectionSend(
+          senderId,
+          "Welcome to env.coffee!!\n\nWhat would you like to do here?",
+        );
       } else if (session.data.confirm == "No") {
         sendId(senderId, "Order void. Thank you for choosing env.coffee");
-        session.state = STATES.IDLE;
+        session.state = STATES.START;
         sessions[senderId] = session;
+        selectionSend(
+          senderId,
+          "Welcome to env.coffee!!\n\nWhat would you like to do here?",
+        );
       } else {
         sendId(senderId, "Wrong input, try again.");
         confirmSend(
