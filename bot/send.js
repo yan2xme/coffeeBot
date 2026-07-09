@@ -58,6 +58,38 @@ export async function sweetSend(id, texts) {
     });
 }
 
+export async function confirmSend(id, texts) {
+  await axios
+    .post(
+      "https://graph.facebook.com/v25.0/me/messages?access_token=" +
+        process.env.PAGE_ACCESS_TOKEN,
+      {
+        recipient: { id: id },
+        message: {
+          text: texts,
+          quick_replies: [
+            {
+              content_type: "text",
+              title: "Yes",
+              payload: "Yes",
+            },
+            {
+              content_type: "text",
+              title: "No",
+              payload: "No",
+            },
+          ],
+        },
+      },
+    )
+    .catch((error) => {
+      console.log(JSON.stringify(error.response.data));
+    })
+    .finally(() => {
+      console.log("Request completed");
+    });
+}
+
 export async function flavorsSend(id) {
   await axios
     .post(
@@ -80,12 +112,12 @@ export async function flavorsSend(id) {
                     {
                       type: "postback",
                       title: "Matcha Latte",
-                      payload: "matcha",
+                      payload: "Matcha Latte",
                     },
                   ],
                 },
                 {
-                  title: "Matcha Latte",
+                  title: "Spanish Latte",
                   image_url:
                     "https://curry-mardi-semantic.ngrok-free.dev/flavors/spanish.jpg",
                   subtitle: "₱10",
@@ -93,7 +125,7 @@ export async function flavorsSend(id) {
                     {
                       type: "postback",
                       title: "Spanish Latte",
-                      payload: "spanish",
+                      payload: "Spanish Latte",
                     },
                   ],
                 },
@@ -124,12 +156,12 @@ export async function milkSend(id, texts) {
             {
               content_type: "text",
               title: "Cow Milk",
-              payload: "cowmilk",
+              payload: "Cow Milk",
             },
             {
               content_type: "text",
               title: "Oatside",
-              payload: "oatside",
+              payload: "Oatside",
             },
           ],
         },
@@ -158,17 +190,17 @@ export async function areaSend(id, texts) {
             {
               content_type: "text",
               title: "Arrupe Hall",
-              payload: "arrupe",
+              payload: "Arrupe Hall",
             },
             {
               content_type: "text",
               title: "Wiemann Building",
-              payload: "wiemann",
+              payload: "Wiemann Building",
             },
             {
               content_type: "text",
               title: "Bapa Benny",
-              payload: "bapa",
+              payload: "Bapa Benny",
             }
           ],
         },

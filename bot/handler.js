@@ -8,7 +8,7 @@ import { sweetSend } from "./send.js"; // or whatever you named it
 import { flavorsSend } from "./send.js"; // or whatever you named it
 import { milkSend } from "./send.js"; // or whatever you named it
 import { areaSend } from "./send.js"; // or whatever you named it
-
+import { confirmSend } from "./send.js"; // or whatever you named it
 
 const sessions = {};
 
@@ -45,6 +45,7 @@ export async function handleMessage(senderId, text) {
 
       sendId(senderId, "What would you like to drink?");
       flavorsSend(senderId);
+
       // 1. save `text` as session.data.name
       // 2. advance session.state to ASK_DRINK
       // 3. sessions[senderId] = session  ← don't forget to save it back
@@ -54,34 +55,52 @@ export async function handleMessage(senderId, text) {
 
     case STATES.ASK_DRINK: {
       session.data.drink = text;
+      console.log("from ask drink: ", session.data.drink);
 
-      session.state = STATES.ASK_MILK;
-      sessions[senderId] = session;
+      const drinks = ["Matcha Latte", "Spanish Latte"];
 
-      milkSend(senderId, "What milk would you like me to use?");
+      if (drinks.includes(session.data.drink)) {
+        session.state = STATES.ASK_MILK;
+        sessions[senderId] = session;
+        milkSend(senderId, "What milk would you like me to use?");
+      } else {
+        sendId(senderId, "Wrong input, try again.");
+        sendId(senderId, "What would you like to drink?");
+        flavorsSend(senderId);
+      }
       // same pattern as before
       break;
     }
 
     case STATES.ASK_MILK: {
       session.data.milk = text;
+    
+      const milks = ["Oatside", "Cow Milk"]
 
-      session.state = STATES.ASK_SWEET;
-      sessions[senderId] = session;
-
-      sweetSend(senderId, "How sweet would you like it to be?");
+      if (milks.includes(session.data.milk)) {
+        session.state = STATES.ASK_SWEET;
+        sessions[senderId] = session;
+        sweetSend(senderId, "How sweet would you like it to be?");
+      } else {
+        sendId(senderId, "Wrong input, try again.");
+        milkSend(senderId, "What milk would you like me to use?");
+      }
       // same pattern as before
       break;
     }
 
     case STATES.ASK_SWEET: {
       session.data.sweet = text;
+      const sweet = ["0%", "50%","100%"];
 
-      session.state = STATES.ASK_BUILD;
-      sessions[senderId] = session;
-
-      areaSend(senderId, "Which building are you located?");
-
+      if (sweet.includes(session.data.sweet)) {
+        session.state = STATES.ASK_BUILD;
+        sessions[senderId] = session;
+        areaSend(senderId, "Which building are you located?");
+      } else {
+        sendId(senderId, "Wrong input, try again.");
+        sweetSend(senderId, "How sweet would you like it to be?");
+      }
       // same pattern as before
       break;
     }
@@ -89,16 +108,31 @@ export async function handleMessage(senderId, text) {
     case STATES.ASK_BUILD: {
       session.data.building = text;
 
-      session.state = STATES.DONE;
-      sessions[senderId] = session;
-      sendId(senderId, `Are your order details correct?\n\nName: ${session.data.name}\nDrink: ${session.data.drink}\nMilk: ${session.data.milk}\nSweet: ${session.data.sweet}\nBuilding: ${session.data.building}`);
+      const build = ["Wiemann Building",
+        "Bapa Benny",
+        "Arrupe Hall"];
+      if (
+        build.includes(session.data.building)
+      ) {
+        session.state = STATES.DONE;
+        sessions[senderId] = session;
+        confirmSend(
+          senderId,
+          `Are your order details correct?\n\nName: ${session.data.name}\nDrink: ${session.data.drink}\nMilk: ${session.data.milk}\nSweet: ${session.data.sweet}\nBuilding: ${session.data.building}`,
+        );
+      } else {
+        sendId(senderId, "Wrong input, try again.");
+        areaSend(senderId, "Which building are you located?");
+      }
       // same pattern as before
       break;
     }
 
     case STATES.DONE: {
-        session.data.price = 100; // for mock only
+      session.data.confirm = text;
 
+      if (session.data.confirm == "Yes") {
+        session.data.price = 100; // for mock only
         await saveOrder(
           senderId,
           session.data.name,
@@ -107,13 +141,24 @@ export async function handleMessage(senderId, text) {
           session.data.sweet,
           session.data.building,
           session.data.status,
-          session.data.price
+          session.data.price,
         );
 
-        sendId(senderId, "ORDER PLACED");
+        sendId(senderId, "Order placed, thank you for ordering.");
         session.state = STATES.IDLE;
         sessions[senderId] = session;
-        break;
+      } else if (session.data.confirm == "No") {
+        sendId(senderId, "Order void. Thank you for choosing env.coffee");
+        session.state = STATES.IDLE;
+        sessions[senderId] = session;
+      } else {
+        sendId(senderId, "Wrong input, try again.");
+        confirmSend(
+          senderId,
+          `Are your order details correct?\n\nName: ${session.data.name}\nDrink: ${session.data.drink}\nMilk: ${session.data.milk}\nSweet: ${session.data.sweet}\nBuilding: ${session.data.building}`,
+        );
       }
+      break;
+    }
   }
 }
