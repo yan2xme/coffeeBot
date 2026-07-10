@@ -48,6 +48,21 @@ export async function getTodayOrders() {
     return console.log(data);
 }
 
+export async function getTodayOrdersByCustomer(sender_id) {
+  const dateNow = new Date(Date.now()).toISOString().split('T')[0];
+  const dateToms = new Date(Date.now()+86400000).toISOString().split('T')[0];
+
+  const { data, error } = await supabase
+    .from ('orders')
+    .select('*')
+    .eq('sender_id', sender_id)
+    .lt('created_at', dateToms) //less than dateToms
+    .gte('created_at', dateNow); //greater than or equal to dateNow
+
+    if (error) throw error;
+    return data;
+}
+
 
 
 //for updating status of specific id drink

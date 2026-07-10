@@ -2,6 +2,7 @@
 import { STATES } from "./states.js";
 import { getConfig } from "../db/config.js";
 import { countTodayOrders } from "../db/orders.js";
+import { getTodayOrdersByCustomer } from "../db/orders.js";
 import { saveOrder } from "../db/orders.js";
 import { sendId } from "./send.js"; // or whatever you named it
 import { sweetSend } from "./send.js"; // or whatever you named it
@@ -48,14 +49,27 @@ export async function handleMessage(senderId, text) {
           sendId(senderId, "What's your name?");
         }
       } else if (session.data.start == "Check Order") {
-        session.state = STATES.IDLE;
+
+        var result = await getTodayOrdersByCustomer(senderId);
+
+        console.log(Object.keys(result));
+        console.log(result);
+
+        sendId(senderId,'Your order for today po Maamser')
+
+        for (let i = 0; i < result.length; i++){
+          const date = result[i].created_at.split('T')[0];
+          const time = result[i].created_at.substring(11,16);
+
+          let idNum = i + 1;
+
+          sendId(senderId,`\nOrder no. ${idNum}\n\nName: ${result[i].name}\nOrdered at: ${date} ${time}\n\nDrink: ${result[i].drink}\nStatus: ${result[i].status}`);
+        }
+
+        session.state = STATES.CHECK_ORDER;
         sessions[senderId] = session;
-        sendId(senderId, "Just checking lang, now exiting to Start");
-        selectionSend(
-          senderId,
-          "Welcome to env.coffee!!\n\nWhat would you like to do here?",
-        );
         return;
+
       } else {
         sendId(senderId, "Wrong input, try again");
         selectionSend(
@@ -70,6 +84,14 @@ export async function handleMessage(senderId, text) {
       // 4. otherwise → set sessions[senderId] to ASK_NAME state
       // 5. send "what's your name?"
     }
+
+
+
+    case STATES.CHECK_ORDER : {
+
+      break;
+    }
+
 
     case STATES.ASK_NAME: {
       session.data.name = text;
