@@ -209,7 +209,6 @@ export async function milkSend(id, texts) {
 }
 
 
-
 export async function areaSend(id, texts) {
   await axios
     .post(

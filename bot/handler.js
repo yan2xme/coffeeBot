@@ -20,22 +20,22 @@ export async function handleMessage(senderId, text) {
   switch (session.state) {
     case STATES.START:
       session.data.start = text;
-
-      session.state = STATES.IDLE;
-      sessions[senderId] = session;
-
       selectionSend(
         senderId,
         "Welcome to env.coffee!!\n\nWhat would you like to do here?",
       );
+
+      session.state = STATES.IDLE;
+      sessions[senderId] = session;
+
       break;
 
     case STATES.IDLE: {
-      session.data.start = text;
+      session.data.idle = text;
 
       const selection = ["Start Order", "Check Order"];
 
-      if (session.data.start == "Start Order") {
+      if (session.data.idle == "Start Order") {
         var result = await getConfig();
 
         var todayOrders = await countTodayOrders();
@@ -48,28 +48,34 @@ export async function handleMessage(senderId, text) {
           sessions[senderId] = session;
           sendId(senderId, "What's your name?");
         }
-      } else if (session.data.start == "Check Order") {
-
+      } else if (session.data.idle == "Check Order") {
         var result = await getTodayOrdersByCustomer(senderId);
 
         console.log(Object.keys(result));
         console.log(result);
 
-        sendId(senderId,'Your order for today po Maamser')
+        sendId(senderId, "Your order for today po");
 
-        for (let i = 0; i < result.length; i++){
-          const date = result[i].created_at.split('T')[0];
-          const time = result[i].created_at.substring(11,16);
+        for (let i = 0; i < result.length; i++) {
+          
+          const date = result[i].created_at.split("T")[0];
+          const time = result[i].created_at.substring(11, 16);
 
           let idNum = i + 1;
 
-          sendId(senderId,`\nOrder no. ${idNum}\n\nName: ${result[i].name}\nOrdered at: ${date} ${time}\n\nDrink: ${result[i].drink}\nStatus: ${result[i].status}`);
+          sendId(
+            senderId,
+            `\nOrder no. ${idNum}\nName: ${result[i].name}\nOrdered at: ${date} ${time}\n\nDrink: ${result[i].drink}\nStatus: ${result[i].status}`,
+          );
         }
 
-        session.state = STATES.CHECK_ORDER;
+        session.state = STATES.IDLE;
         sessions[senderId] = session;
+        selectionSend(
+          senderId,
+          "Welcome to env.coffee!!\n\nWhat would you like to do here?",
+        );
         return;
-
       } else {
         sendId(senderId, "Wrong input, try again");
         selectionSend(
@@ -84,14 +90,6 @@ export async function handleMessage(senderId, text) {
       // 4. otherwise → set sessions[senderId] to ASK_NAME state
       // 5. send "what's your name?"
     }
-
-
-
-    case STATES.CHECK_ORDER : {
-
-      break;
-    }
-
 
     case STATES.ASK_NAME: {
       session.data.name = text;
