@@ -3,6 +3,7 @@ import express from 'express';
 import webhook from './routes/webhook.js';
 import * as readline from 'node:readline/promises';
 import { getConfig } from './db/config.js';
+import api from './routes/api.js'
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use('/flavors', express.static('flavors'));
 
 //opening webhooks to be invoked
 app.use('/webhook', webhook)
+
+app.use('/api', api)
 
 //listening the server at port 3000
 app.listen(PORT, () => console.log(`http://localhost:${PORT}`));
