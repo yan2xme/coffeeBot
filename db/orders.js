@@ -1,6 +1,5 @@
 import supabase from './client.js';
 
-
 // for creating new order
 export async function saveOrder(sender_id,name,drink,milk,sweetness,building,status,price) {
   const { error } = await supabase
@@ -38,14 +37,14 @@ export async function getTodayOrders() {
   const dateNow = new Date(Date.now()).toISOString().split('T')[0];
   const dateToms = new Date(Date.now()+86400000).toISOString().split('T')[0];
 
-  const { data, error} = await supabase
+  const { data, error } = await supabase
     .from ('orders')
     .select('*')
     .lt('created_at', dateToms) //less than dateToms
     .gte('created_at', dateNow); //greater than or equal to dateNow
 
     if (error) throw error;
-    return console.log(data);
+    return data;
 }
 
 export async function getTodayOrdersByCustomer(sender_id) {
