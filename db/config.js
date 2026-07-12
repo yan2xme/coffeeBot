@@ -12,3 +12,16 @@ export async function getConfig() {
         return data
         
 } 
+
+export async function updateConfig(stat) {
+        const { data,error } = await supabase
+        .from('config')
+        .update({accepting_orders: stat})
+        .eq('id', 1)
+
+        if (error) throw error
+        
+        return data
+        
+} 
+
