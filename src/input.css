@@ -7,3 +7,19 @@
   font-display: swap;
   src: url("../src/fonts/AppleGaramond.ttf") format("ttf");
 }
+
+@font-face {
+  font-family: Apple_Garamond_Italic;
+  font-style: normal;
+  font-weight: 100 200 300 400 500 600 700 800 900;
+  font-display: swap;
+  src: url("../src/fonts/AppleGaramond-Italic.ttf") format("ttf");
+}
+
+@font-face {
+  font-family: Apple_Garamond_Italic_light;
+  font-style: normal;
+  font-weight: 100 200 300 400 500 600 700 800 900;
+  font-display: swap;
+  src: url("../src/fonts/AppleGaramond-LightItalic.ttf") format("ttf");
+}
