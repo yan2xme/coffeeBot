@@ -316,6 +316,9 @@
   .left-260 {
     left: calc(var(--spacing) * 260);
   }
+  .left-270 {
+    left: calc(var(--spacing) * 270);
+  }
   .left-280 {
     left: calc(var(--spacing) * 280);
   }
@@ -324,6 +327,9 @@
   }
   .left-400 {
     left: calc(var(--spacing) * 400);
+  }
+  .left-500 {
+    left: calc(var(--spacing) * 500);
   }
   .col-auto {
     grid-column: auto;
@@ -393,6 +399,9 @@
   }
   .-mt-15 {
     margin-top: calc(var(--spacing) * -15);
+  }
+  .mt-0 {
+    margin-top: 0;
   }
   .mt-1 {
     margin-top: var(--spacing);

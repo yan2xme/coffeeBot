@@ -10,41 +10,42 @@
   </head>
 
   <body>
+
     <aside
-      class="bg-black border-r border-slate-3 w-full h-full fixed top-0 left-0 max-w-75 px-4 overflow-auto"
-    >
+      class="bg-black border-r border-slate-3 w-full h-full fixed top-0 left-0 max-w-75 py-6 px-4 overflow-auto">
       <div class="min-w-10 mb-8 px-4 py-20"><img src="../src/logo.svg" /></div>
 
       <nav class="-my-12">
         <div class="mt-6">
-          <a
-          href="/dashboard/index.html"
-            class="font-[Apple_Garamond] text-slate-400 text-2xl font-normal block hover:text-slate-900  hover:bg-slate-100  rounded-md px-3 py-2 transition-colors focus:outline-none focus-visible:ring-2"
+          <div
+            class="font-[Apple_Garamond] text-slate-50 text-2xl font-normal px-3"
           >
             Overview
-        </a>
+          </div>
           <ul
-            class="font-[Apple_Garamond] mt-2 space-y-0.5 text-m text-2xl text-slate-400 font-normal">
-            
+            class="font-[Apple_Garamond] mt-2 space-y-0.5 text-m text-2xl text-slate-400 font-normal"
+          >
             <li>
               <a
-                href="../dashboard/gettodayorders.html"
-                class="font-[Apple_Garamond] text-slate-400 text-2xl font-normal block hover:text-slate-900  hover:bg-slate-100  rounded-md px-3 py-2 transition-colors focus:outline-none focus-visible:ring-2">
+                href="/dashboard/gettodayorders.html"
+                class="block hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100 dark:hover:bg-neutral-800 rounded-md px-3 py-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              >
                 Get Today Orders
               </a>
             </li>
-            
             <li>
               <a
-                href="completedorders.html"
-                class="font-[Apple_Garamond] text-slate-400 text-2xl font-normal block hover:text-slate-900  hover:bg-slate-100  rounded-md px-3 py-2 transition-colors focus:outline-none focus-visible:ring-2">
+                href="/dashboard/completedorders.html"
+                class="block hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100 dark:hover:bg-neutral-800 rounded-md px-3 py-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              >
                 Completed Orders
               </a>
             </li>
             <li>
               <a
-                class="font-[Apple_Garamond] text-slate-50 text-2xl font-normal px-3"
-          >
+                href="../dashboard/voidedorders.html"
+                class="block hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100 dark:hover:bg-neutral-800 rounded-md px-3 py-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              >
                 Voided Orders
               </a>
             </li>
