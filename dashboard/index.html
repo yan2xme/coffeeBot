@@ -11,7 +11,7 @@
 
   <body>
     <aside
-      class="bg-black border-r border-slate-3 w-full h-full fixed top-0 left-0 max-w-[300px] py-6 px-4 overflow-auto"
+      class="bg-black border-r border-slate-3 w-full h-full fixed top-0 left-0 max-w-75 py-6 px-4 overflow-auto"
     >
       <div class="min-w-10 mb-8 px-4 py-20"><img src="../src/logo.svg" /></div>
 
@@ -27,7 +27,7 @@
           >
             <li>
               <a
-                href="#"
+                href="/dashboard/gettodayorders.html"
                 class="block hover:text-slate-900 dark:hover:text-slate-50 hover:bg-slate-100 dark:hover:bg-neutral-800 rounded-md px-3 py-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 Get Today Orders
@@ -85,10 +85,16 @@
       </section>
 
         <section
-          class="border mt-4 p-5 border-gray-400 h-100 w-full flex flex-3 flex-col flex-wrap">
-          <h1 class="font-[Apple_Garamond] font-bold text-3xl pt-2">Performance History</h1>
+          class="border mt-4 p-5 border-gray-400 h-100 w-full flex flex-2 flex-col">
+          <div>          <h1 class="font-[Apple_Garamond] font-bold text-3xl pt-2">Performance History</h1>
           <h2 class="font-[Apple_Garamond] -mt-8 text-xl pt-7">Delivery trend over the last 10 days</h2>
+</div>
 
+      <div class="rounded-full border h-10 w-30 mt-4 fixed right-40">
+          <img src="../src/exit.svg" alt="coffee icon" height="20" width="20" class="m-2 ml-4.5">
+                  <h2 class="font-[Apple_Garamond_Italic_Light] font-light italic -mt-8 ml-14 text-l">filters...</h2>
+      </div>
+          
         </section>
 
     <script src=""></script>
