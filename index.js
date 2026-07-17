@@ -26,6 +26,7 @@ app.get("/test", (req, res) => { //testing whether env is GET successfully
 });
 
 app.use('/flavors', express.static('flavors'));
+app.use('/src', express.static('src'));
 
 //opening webhooks to be invoked
 app.use('/webhook', webhook)
