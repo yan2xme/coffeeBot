@@ -1,3 +1,20 @@
+
+async function setStatus(id, status) {
+  try {
+    const res = await fetch("http://localhost:3000/api/orders/${id}/status/${status}", {
+      method: 'PATCH',
+      headers: {
+        "x-admin-secret": "coffeebotadmin2025",
+      },
+    });
+    const result = await res.json();
+    
+  } catch (error) {
+    console.log(error)
+  }
+  
+}
+
 async function getCards() {
   try {
     const cardContainer = document.getElementById("card");
@@ -46,20 +63,21 @@ async function getCards() {
                         </div>
                 </div>
                         <footer>
-                                <div class="bg-[#008F6B] h-13 w-80 p-2.5 inline-flex">
+                                <button onclick=setStatus(id,completed) class="bg-[#008F6B] hover:bg-blue-700 h-13 w-80 p-2.5 inline-flex">
                                     <h1 class="font-[Apple_Garamond_Light] pl-2 text-white text-2xl">Mark as Completed</h1>
                                     <div class="h-8.5 w-8.5 bg-white relative -right-20">
-                                    <img src="../src/check.svg" alt="coffee icon" height="35" width="35">
+                                        <img src="../src/check.svg" alt="coffee icon" height="35" width="35">
                                     </div>
-                                </div>
+                                </button>
                                 <br>
-                                <div class="bg-black h-13 w-80 p-2.5 inline-flex">
+                                <button onclick=setStatus(id,completed) class="bg-black hover:bg-blue-700 h-13 w-80 p-2.5 inline-flex">
                                     <h1 class="font-[Apple_Garamond_Light] pl-2 text-white text-2xl">Mark as Void</h1>
                                     <div class="h-8.5 w-8.5 bg-white relative -right-33.5">
-                                    <img src="../src/exit.svg" alt="coffee icon" height="35" width="35">
+                                        <img src="../src/exit.svg" alt="coffee icon" height="35" width="35">
                                     </div>
-                                </div>
-                        </footer>`;
+                                </button>
+                        </footer>
+                        `;
       cardContainer.appendChild(div);
     });
   } catch (error) {
@@ -68,3 +86,4 @@ async function getCards() {
 }
 
 getCards();
+

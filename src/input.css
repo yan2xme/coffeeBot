@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../dashboard/app.js";
 
 @font-face {
   font-family: Apple_Garamond;
