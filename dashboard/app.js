@@ -1,7 +1,10 @@
 async function getCards(type) {
-  try {
-    const cardContainer = document.getElementById("card");
+  const cardContainer = document.getElementById("card");
+  const cardContainer2 = document.getElementById("card2");
+  const cardContainer3 = document.getElementById("card3");
 
+
+  try {
     switch (type) {
       case "getOrdersToday":
         const res = await fetch("http://localhost:3000/api/orders/today", {
@@ -82,11 +85,11 @@ async function getCards(type) {
             "x-admin-secret": "coffeebotadmin2025",
           },
         });
-        const result2 = await res.json();
+        const result2 = await res2.json();
 
-        cardContainer.innerHTML = "";
+        cardContainer2.innerHTML = "";
 
-        result.forEach((card) => {
+        result2.forEach((card) => {
           const id = card.id;
           const name = card.name;
           const drink = card.drink;
@@ -121,21 +124,21 @@ async function getCards(type) {
                         </div>
                 </div>
                         `;
-          cardContainer.appendChild(div);
+          cardContainer2.appendChild(div);
         });
         break;
 
       case "Voided":
-        const res3 = await fetch("http://localhost:3000/api/orders/completed", {
+        const res3 = await fetch("http://localhost:3000/api/orders/voided", {
           headers: {
             "x-admin-secret": "coffeebotadmin2025",
           },
         });
-        const result3 = await res.json();
+        const result3 = await res3.json();
 
-        cardContainer.innerHTML = "";
+        cardContainer3.innerHTML = "";
 
-        result.forEach((card) => {
+        result3.forEach((card) => {
           const id = card.id;
           const name = card.name;
           const drink = card.drink;
@@ -170,7 +173,7 @@ async function getCards(type) {
                         </div>
                 </div>
                         `;
-          cardContainer.appendChild(div);
+          cardContainer3.appendChild(div);
         });
         break;
     }
@@ -198,4 +201,20 @@ async function setStatus(id, prompt) {
   }
 }
 
-getCards("getOrdersToday");
+
+const pageName = window.location.pathname.split('/').pop();
+
+if (pageName === 'gettodayorders.html') {
+  getCards("getOrdersToday");
+}
+
+if (pageName === 'completedorders.html') {
+  getCards("completeOrders");
+}
+
+
+if (pageName === 'voidedorders.html') {
+  getCards("Voided");
+}
+
+
