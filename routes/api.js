@@ -26,11 +26,9 @@ router.patch("/orders/:id/status/:status", async (req, res) => {
     const status = req.params.status;
 
     const data = await updateStatus(id, status);
-    res.json(data);
   } catch (error) {
     return res.status(404).json({ message: "User not found" });
   }
-  res.send(data);
 });
 
 router.get("/config", async (req, res) => {

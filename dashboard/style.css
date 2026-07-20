@@ -371,6 +371,9 @@
   .flex-3 {
     flex: 3;
   }
+  .cursor-pointer {
+    cursor: pointer;
+  }
   .grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
