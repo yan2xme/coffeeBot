@@ -47,6 +47,16 @@ export async function getTodayOrders() {
     return data;
 }
 
+export async function getOrders(prompt) {
+  const { data, error } = await supabase
+    .from ('orders')
+    .select('*')
+    .eq('status', prompt)
+
+    if (error) throw error;
+    return data;
+}
+
 export async function getTodayOrdersByCustomer(sender_id) {
   const dateNow = new Date(Date.now()).toISOString().split('T')[0];
   const dateToms = new Date(Date.now()+86400000).toISOString().split('T')[0];

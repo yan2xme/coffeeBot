@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { getTodayOrders, updateStatus } from "../db/orders.js";
+import { getTodayOrders, updateStatus, getOrders } from "../db/orders.js";
 import { getConfig } from "../db/config.js";
 import { updateConfig } from "../db/config.js";
 import supabase from "../db/client.js";
@@ -17,6 +17,16 @@ router.use("/", (req, res, next) => {
 
 router.get("/orders/today", async (req, res) => {
   const data = await getTodayOrders();
+  res.send(data);
+});
+
+router.get("/orders/completed", async (req, res) => {
+  const data = await getOrders("Completed");
+  res.send(data);
+});
+
+router.get("/orders/voided", async (req, res) => {
+  const data = await getOrders("Voided");
   res.send(data);
 });
 
