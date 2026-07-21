@@ -42,11 +42,11 @@ async function getCards(type) {
                         <div class="inline-flex mt-10">
                             <div class="inline-flex">
                                     <img src="../src/map.svg" alt="coffee icon" height="35" width="35" class="">
-                                    <h1 class="font-[Apple_Garamond_Light] pl-2 text-2xl">${building}</h1>
+                                    <h1 class="font-[Apple_Garamond_Light] pt-1 pl-2 text-xl mr-5">${building}</h1>
                             </div>
 
-                            <div class="border-l relative left-10">
-                                    <h1 class="font-[Apple_Garamond_Light] ml-7 pl-2 text-2xl">${price}</h1>
+                            <div class="border-l sticky left-10">
+                                    <h1 class="font-[Apple_Garamond_Light] ml-7 pl-2 text-2xl">₱${price}</h1>
                             </div>
                         </div>
                 </div>
@@ -115,11 +115,11 @@ async function getCards(type) {
                         <div class="inline-flex mt-10">
                             <div class="inline-flex">
                                     <img src="../src/map.svg" alt="coffee icon" height="35" width="35" class="">
-                                    <h1 class="font-[Apple_Garamond_Light] pl-2 text-2xl">${building}</h1>
+                                    <h1 class="font-[Apple_Garamond_Light] pt-1 pl-2 text-xl mr-5">${building}</h1>
                             </div>
 
-                            <div class="border-l relative left-10">
-                                    <h1 class="font-[Apple_Garamond_Light] ml-7 pl-2 text-2xl">${price}</h1>
+                            <div class="border-l sticky left-10">
+                                    <h1 class="font-[Apple_Garamond_Light] ml-7 pl-2 text-2xl">₱${price}</h1>
                             </div>
                         </div>
                 </div>
@@ -164,11 +164,11 @@ async function getCards(type) {
                         <div class="inline-flex mt-10">
                             <div class="inline-flex">
                                     <img src="../src/map.svg" alt="coffee icon" height="35" width="35" class="">
-                                    <h1 class="font-[Apple_Garamond_Light] pl-2 text-2xl">${building}</h1>
+                                    <h1 class="font-[Apple_Garamond_Light] pt-1 pl-2 text-xl mr-5">${building}</h1>
                             </div>
 
-                            <div class="border-l relative left-10">
-                                    <h1 class="font-[Apple_Garamond_Light] ml-7 pl-2 text-2xl">${price}</h1>
+                            <div class="border-l sticky left-10">
+                                    <h1 class="font-[Apple_Garamond_Light] ml-7 pl-2 text-2xl">₱${price}</h1>
                             </div>
                         </div>
                 </div>
